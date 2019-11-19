@@ -92,6 +92,11 @@ section {
     cursor: pointer;
 }
 
+.link__active {
+    background: #333;
+    color: #fff;
+    transition: ease 0.3s all;
+}
 
 /* Header Styles */
 .page__header {
@@ -100,6 +105,7 @@ section {
     top: 0;
     width: 100%;
     z-index: 5;
+    transition: top 0.5s;
 }
 
 /* Footer Styles */
@@ -132,6 +138,32 @@ section:nth-of-type(even) .landing__container {
     margin-right: 0;
     margin-left: auto;
     text-align: right; 
+}
+
+/* Scroll page to top button  */
+.scroll__top {
+    position: fixed;
+    z-index: 900;
+    bottom: 80px;
+    right: 10px;
+    width: 50px;
+    height: 50px;
+    background: rgba(0,13,60,0.7);
+    text-align: center;
+    line-height: 50px;
+    border-radius: 50%;
+    opacity: 0.8;
+    box-shadow: 0px 0px 5px 1px;
+    transition: opacity 0.3s;
+}
+
+.scroll__top:hover {
+    opacity: 1;
+    cursor: pointer;
+}
+
+.display__none {
+    display: none;
 }
 
 /* Background Circles */
