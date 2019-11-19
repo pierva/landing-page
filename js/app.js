@@ -1,10 +1,4 @@
 /**
- * 
- * Manipulating the DOM exercise.
- * Exercise programmatically builds navigation,
- * scrolls to anchors from navigation,
- * and highlights section in viewport upon scrolling.
- * 
  * Dependencies: None
  * 
  * JS Version: ES2015/ES6
@@ -14,25 +8,59 @@
 */
 
 /**
- * Define Global Variables
- * 
+ * Model start
+ * model holds all the data associated with the page 
+*/
+let model = {}
+
+/**
+ * End model
 */
 
 
 /**
- * End Global Variables
- * Start Helper Functions
- * 
+ * Octopus start
+ * Octopus is the link between the model and the view 
 */
 
+const octopus = {
+    init: () => {
+        view.init();
+    }
+}
+/**
+ * End octopus
+*/
 
 
 /**
- * End Helper Functions
- * Begin Main Functions
- * 
+ * View start
+ * View is responsible of manipulating the DOM and will access the data
+ * stored in the model through the octopus 
 */
 
+const view = {
+    // start main function
+    init: function() {
+        this.initNavBar('#navbar__list');
+    },
+
+    // build the navbar
+    initNavBar: (navElement) => {
+        const nav = document.querySelector(navElement);
+        const sections = document.querySelectorAll('section');
+        for (let section of sections) {
+            const navLink = document.createElement('li');
+            navLink.innerHTML = 
+                `<a href="#${section.id}" class="menu__link>
+                    ${section.dataset.nav}
+                </a>`
+            nav.appendChild(navLink);
+            firstSection = false;
+        }
+        
+    }
+}
 // build the nav
 
 
@@ -43,8 +71,7 @@
 
 
 /**
- * End Main Functions
- * Begin Events
+ * End view
  * 
 */
 
@@ -55,3 +82,7 @@
 // Set sections as active
 
 
+/**
+ * Iinit the main function 
+*/
+octopus.init();
