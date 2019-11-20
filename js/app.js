@@ -51,6 +51,27 @@ const view = {
         this.scrollMeUp();
     },
 
+    // Helper function
+    isOnScreen: (elementSelector) => {
+        const element = document.querySelector(elementSelector);
+        const viewport = {
+            top : window.scrollY,
+            left : window.scrollX
+        };
+        viewport.right = viewport.left + window.innerWidth;
+        viewport.bottom = viewport.top + window.innerHeight;
+         console.log(viewport)
+        let bounds = {}
+        bounds.top = element.offsetHeight;
+        bounds.left = element.offsetWidth;
+        bounds.right = element.offsetLeft + element.offsetWidth;
+        bounds.bottom = element.offsetTop + element.offsetHeight;
+        console.log(bounds)
+        // return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
+        return (viewport.bottom < bounds.top || viewport.top > bounds.bottom);
+    
+    },
+
     // build the navbar
     initNavBar: (navElement) => {
         const nav = document.querySelector(navElement);
@@ -86,7 +107,6 @@ const view = {
              // Hide and show the navbar
              if (firstScroll) {
                 if (currPosition - prevPosition > 50) {
-                    console.log('here')
                     nav.style.top = '-' + octopus.getNavbarHeight();
                     prevPosition = currPosition;
                     firstScroll = false;
@@ -124,6 +144,7 @@ const view = {
 
 
 // Add class 'active' to section when near top of viewport
+
 
 
 // Scroll to anchor ID using scrollTO event
