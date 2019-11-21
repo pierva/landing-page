@@ -51,25 +51,24 @@ const view = {
         this.scrollMeUp();
     },
 
-    // Helper function
+    // Helper function to check if element is in the viewport
     isOnScreen: (elementSelector) => {
         const element = document.querySelector(elementSelector);
-        const viewport = {
-            top : window.scrollY,
-            left : window.scrollX
-        };
-        viewport.right = viewport.left + window.innerWidth;
-        viewport.bottom = viewport.top + window.innerHeight;
-         console.log(viewport)
-        let bounds = {}
-        bounds.top = element.offsetHeight;
-        bounds.left = element.offsetWidth;
-        bounds.right = element.offsetLeft + element.offsetWidth;
-        bounds.bottom = element.offsetTop + element.offsetHeight;
-        console.log(bounds)
-        // return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
-        return (viewport.bottom < bounds.top || viewport.top > bounds.bottom);
-    
+
+        // Get element's position in the viewport
+        const bounding = element.getBoundingClientRect();
+        
+        // Check if element is in the viewport 
+        if(bounding.top >= 0 && bounding.left >= 0 &&
+            bounding.right <=
+            // fallback for browser compatibility 
+            (window.innerWidth || document.documentElement.clientWidth) &&
+            bounding.bottom <= 
+            (window.innerHeight || document.documentElement.clientHeight)) {
+                return true
+            } else {
+                return false;
+            }
     },
 
     // build the navbar
