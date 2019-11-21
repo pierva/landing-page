@@ -45,7 +45,7 @@ const octopus = {
 
 const view = {
     // start main function
-    init: function() {
+    init: function () {
         this.initNavBar('#navbar__list');
         this.mainContentScrollHandlers(100);
         this.scrollMeUp();
@@ -57,18 +57,18 @@ const view = {
 
         // Get element's position in the viewport
         const bounding = element.getBoundingClientRect();
-        
+
         // Check if element is in the viewport 
-        if(bounding.top >= 0 && bounding.left >= 0 &&
+        if (bounding.top >= 0 && bounding.left >= 0 &&
             bounding.right <=
             // fallback for browser compatibility 
             (window.innerWidth || document.documentElement.clientWidth) &&
-            bounding.bottom <= 
+            bounding.bottom <=
             (window.innerHeight || document.documentElement.clientHeight)) {
-                return true
-            } else {
-                return false;
-            }
+            return true
+        } else {
+            return false;
+        }
     },
 
     // build the navbar
@@ -77,14 +77,14 @@ const view = {
         const sections = document.querySelectorAll('section');
         for (let section of sections) {
             const navLink = document.createElement('li');
-            navLink.innerHTML = 
+            navLink.innerHTML =
                 `<a href="#${section.id}" class="menu__link">
                     ${section.dataset.nav}
                 </a>`
             nav.appendChild(navLink);
             firstSection = false;
         }
-        
+
     },
 
     mainContentScrollHandlers: (buffer) => {
@@ -105,8 +105,8 @@ const view = {
                 scroller.classList.add('display__none');
             }
 
-             // Hide and show the navbar
-             if (firstScroll) {
+            // Hide and show the navbar
+            if (firstScroll) {
                 if (currPosition - prevPosition > 50) {
                     nav.style.top = '-' + octopus.getNavbarHeight();
                     prevPosition = currPosition;
@@ -127,14 +127,14 @@ const view = {
             }
             // Dispatch event to all the sections in order to 
             // show the active state
-            setTimeout(function() {
+            setTimeout(function () {
                 for (let section of sections) {
                     section.dispatchEvent(activeEvent);
                 }
             });
         }
     },
-    
+
     scrollMeUp: () => {
         const scroller = document.getElementById('scrollMeUp');
         scroller.addEventListener('click', (event) => {
@@ -154,9 +154,9 @@ const view = {
     toggleActiveState: () => {
         const sections = document.getElementsByTagName('section');
         for (let section of sections) {
-            section.addEventListener('active', function() {
+            section.addEventListener('active', function () {
                 const isOnScreen = view.isOnScreen(this);
-                if(isOnScreen) {
+                if (isOnScreen) {
                     this.classList.add('active');
                 } else {
                     this.classList.remove('active');
