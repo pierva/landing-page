@@ -75,14 +75,15 @@ const view = {
     initNavBar: (navElement) => {
         const nav = document.querySelector(navElement);
         const sections = document.querySelectorAll('section');
+        let firstLink = true;
         for (let section of sections) {
             const navLink = document.createElement('li');
             navLink.innerHTML =
-                `<a href="#${section.id}" class="menu__link">
+                `<a href="#${section.id}" class="menu__link ${firstLink ? "link__active" : ""}" data-link="${section.dataset.nav}">
                     ${section.dataset.nav}
                 </a>`
             nav.appendChild(navLink);
-            firstSection = false;
+            firstLink = false;
         }
 
     },
@@ -155,11 +156,14 @@ const view = {
         const sections = document.getElementsByTagName('section');
         for (let section of sections) {
             section.addEventListener('active', function () {
-                const isOnScreen = view.isOnScreen(this);
+                const isOnScreen = view.isOnScreen(this, -300);
+                const navLink = document.querySelectorAll(`[data-link="${this.dataset.nav}"]`)[0];
                 if (isOnScreen) {
                     this.classList.add('active');
+                    navLink.classList.add('link__active');
                 } else {
                     this.classList.remove('active');
+                    navLink.classList.remove('link__active');
                 }
             })
         }
