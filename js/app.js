@@ -53,18 +53,18 @@ const view = {
     },
 
     // Helper function to check if element is in the viewport
-    isOnScreen: (element) => {
-
+    isOnScreen: (element, buffer) => {
+        buffer = typeof buffer === 'undefined' ? 0 : buffer;
         // Get element's position in the viewport
         const bounding = element.getBoundingClientRect();
 
         // Check if element is in the viewport 
-        if (bounding.top >= 0 && bounding.left >= 0 &&
+        if (bounding.top >= buffer && bounding.left >= buffer &&
             bounding.right <=
             // fallback for browser compatibility 
-            (window.innerWidth || document.documentElement.clientWidth) &&
+            ((window.innerWidth || document.documentElement.clientWidth) - buffer) &&
             bounding.bottom <=
-            (window.innerHeight || document.documentElement.clientHeight)) {
+            ((window.innerHeight || document.documentElement.clientHeight) - buffer)) {
             return true
         } else {
             return false;
