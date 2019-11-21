@@ -49,11 +49,11 @@ const view = {
         this.initNavBar('#navbar__list');
         this.mainContentScrollHandlers(100);
         this.scrollMeUp();
+        this.toggleActiveState();
     },
 
     // Helper function to check if element is in the viewport
-    isOnScreen: (elementSelector) => {
-        const element = document.querySelector(elementSelector);
+    isOnScreen: (element) => {
 
         // Get element's position in the viewport
         const bounding = element.getBoundingClientRect();
@@ -87,10 +87,12 @@ const view = {
         
     },
 
-    mainContentScrollHandlers: function (buffer) {
+    mainContentScrollHandlers: (buffer) => {
         const nav = document.getElementsByClassName('page__header')[0];
         let prevPosition = window.scrollY;
         let firstScroll = true;
+        const sections = document.getElementsByTagName('section');
+        const activeEvent = new Event('active');
         window.onscroll = function () {
             const currPosition = window.scrollY;
 
@@ -123,13 +125,20 @@ const view = {
                     }
                 }
             }
+            // Dispatch event to all the sections in order to 
+            // show the active state
+            setTimeout(function() {
+                for (let section of sections) {
+                    section.dispatchEvent(activeEvent);
+                }
+            });
         }
     },
     
-    scrollMeUp: function () {
+    scrollMeUp: () => {
         const scroller = document.getElementById('scrollMeUp');
-        scroller.addEventListener('click', function (event) {
-            const animatedScrolling = function () {
+        scroller.addEventListener('click', (event) => {
+            const animatedScrolling = () => {
                 const c = window.scrollY;
                 if (c > 0) {
                     window.requestAnimationFrame(animatedScrolling);
@@ -139,29 +148,26 @@ const view = {
             window.requestAnimationFrame(animatedScrolling);
         });
     },
+
+    // Add event listeners to the sections that listen for active 
+    // event. This event is triggered during window scroll.
+    toggleActiveState: () => {
+        const sections = document.getElementsByTagName('section');
+        for (let section of sections) {
+            section.addEventListener('active', function() {
+                const isOnScreen = view.isOnScreen(this);
+                if(isOnScreen) {
+                    this.classList.add('active');
+                } else {
+                    this.classList.remove('active');
+                }
+            })
+        }
+    }
+
 }
 
-
-// Add class 'active' to section when near top of viewport
-
-
-
-// Scroll to anchor ID using scrollTO event
-
-
 /**
- * End view
- * 
-*/
-
-// Build menu 
-
-// Scroll to section on link click
-
-// Set sections as active
-
-
-/**
- * Iinit the main function 
+ * Init the application
 */
 octopus.init();
